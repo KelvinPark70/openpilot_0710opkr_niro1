@@ -22,7 +22,7 @@ class Spdctrl(SpdController):
         yRele = plan.yyRel #EON Lead
         vRele = plan.vvRel #EON Lead
         lead_set_speed = int(round(self.cruise_set_speed_kph))
-        lead_wait_cmd = 600
+        lead_wait_cmd = 50
 
         dRel = 150
         vRel = 0
