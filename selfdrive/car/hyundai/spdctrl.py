@@ -69,7 +69,7 @@ class Spdctrl(SpdController):
         # 거리 유지 조건
         elif d_delta < 0: # 기준유지거리(현재속도*0.4)보다 가까이 있게 된 상황 
             self.seq_step_debug = "앞차가까움"
-            if lead_objspd >= 0:    # 속도 유지 시점 결정.
+            if lead_objspd == 0:    # 속도 유지 시점 결정.
                 if CS.VSetDis > (CS.clu_Vanz + 30):
                     self.seq_step_debug = "속도유지"
                     lead_wait_cmd = 15
