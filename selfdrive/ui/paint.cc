@@ -581,6 +581,7 @@ static void ui_draw_debug(UIState *s)
     //ui_print( s, ui_viz_rx, ui_viz_ry+100, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
     ui_print( s, ui_viz_rx, ui_viz_ry+100, "OutScale:%.3f", scene.output_scale);
     ui_print( s, ui_viz_rx, ui_viz_ry+150, "prob:%.2f, %.2f", scene.pathPlan.lProb, scene.pathPlan.rProb );
+    ui_print(s, ui_viz_rx, ui_viz_ry+200, "·SFact:%.2f", scene.liveParams.stiffnessFactor);
     //ui_print( s, ui_viz_rx, ui_viz_ry+450, "awareness:%.2f" , scene.awareness_status);
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
     ui_print( s, ui_viz_rx_center, ui_viz_ry+800, "  L.Poly(%%)      LaneWidth      R.Poly(%%)");
