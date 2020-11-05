@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from cereal import car, log
 from common.numpy_fast import clip, interp
 
 from selfdrive.car.hyundai.spdcontroller  import SpdController
@@ -15,32 +16,42 @@ class Spdctrl(SpdController):
         self.steer_mode = ""
         self.cruise_gap = 0.0
 
-    def update_lead(self, CS, CC, dRele, yRele, vRele):
+    def update_lead(self, sm, CS, dRel, yRel, vRel):
+        plan = sm['plan']
+        dRele = plan.ddRel #EON Lead
+        yRele = plan.yyRel #EON Lead
+        vRele = plan.vvRel #EON Lead
         lead_set_speed = int(round(self.cruise_set_speed_kph))
         lead_wait_cmd = 600
 
+        dRel = 150
+        vRel = 0
         #dRel, yRel, vRel = self.get_lead( sm, CS )
-        if CC.dRele < 150:
-            dRele = CC.dRele # dRel(이온 차간간격)값 사용
-            vRele = CC.vRele
+        if 1 < dRele < 150:
+            dRel = dRele # dRele(이온 차간간격)값 사용
+            vRel = vRele
+        elif 1 < CS.lead_distance < 150:
+            dRel = CS.lead_distance # CS.lead_distance(레이더 차간간격)값 사용
+            vRel = CS.lead_objspd
+
 
         dst_lead_distance = (CS.clu_Vanz*self.cv_Raio)   # 기준 유지 거리
         
         if dst_lead_distance > 100:
             dst_lead_distance = 100
-        elif dst_lead_distance < 30:
-            dst_lead_distance = 30
+        #elif dst_lead_distance < 15:
+            #dst_lead_distance = 15
 
-        if dRele < 150: #앞차와의 간격이 150미터 미만이면, 즉 앞차가 인식되면,
+        if dRel < 150: #앞차와의 간격이 150미터 미만이면, 즉 앞차가 인식되면,
             self.time_no_lean = 0
-            d_delta = dRele - float(dst_lead_distance)  # d_delta = 앞차간격(이온값) - 유지거리
-            lead_objspd = vRele  # 선행차량 상대속도.
+            d_delta = dRel - float(dst_lead_distance)  # d_delta = 앞차간격(이온값) - 유지거리
+            lead_objspd = vRel  # 선행차량 상대속도.
         else:
             d_delta = 0
             lead_objspd = 0
  
-        if CS.driverAcc_time: #운전자가 가속페달 밟으면 크루즈 설정속도를 현재속도로 동기화
-            lead_set_speed = int(round(CS.clu_Vanz))
+        if CS.driverAcc_time: #운전자가 가속페달 밟으면 크루즈 설정속도를 현재속도+5으로 동기화
+            lead_set_speed = int(round(CS.clu_Vanz)) + 5
             self.seq_step_debug = "운전자가속"
             lead_wait_cmd = 15
         elif (CS.VSetDis >= 70 and lead_objspd < -30) or (lead_objspd < -40):
