@@ -80,10 +80,10 @@ class Spdctrl(SpdController):
                     self.seq_step_debug = "가속중#0"
                     #lead_set_speed = int(CS.VSetDis)
                     lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, 5)
-            if lead_objspd < -30 or (dRele < 60 and CS.clu_Vanz > 60 and lead_objspd < -5): # 끼어든 차가 급감속 하는 경우
+            if lead_objspd < -30 or (dRel < 60 and CS.clu_Vanz > 60 and lead_objspd < -5): # 끼어든 차가 급감속 하는 경우
                 self.seq_step_debug = "기준내,15-3"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, -3)
-            elif lead_objspd < -20 or (dRele < 80 and CS.clu_Vanz > 80 and lead_objspd < -5):  # 끼어든 차가 급감속 하는 경우
+            elif lead_objspd < -20 or (dRel < 80 and CS.clu_Vanz > 80 and lead_objspd < -5):  # 끼어든 차가 급감속 하는 경우
                 self.seq_step_debug = "기준내,15-2"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, -2)
             elif lead_objspd < -10:
@@ -97,10 +97,10 @@ class Spdctrl(SpdController):
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, 1)
         
         # 선행차량이 멀리 있으면.
-        elif lead_objspd < -20 and dRele < 50:  #거리 조건 추가
+        elif lead_objspd < -20 and dRel < 50:  #거리 조건 추가
             self.seq_step_debug = "감속중#5"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, -2)
-        elif lead_objspd < -10 and dRele < 30:  #거리 조건 추가:
+        elif lead_objspd < -10 and dRel < 30:  #거리 조건 추가:
             self.seq_step_debug = "감속중#6"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 30, -1)
         elif lead_objspd < -7:
@@ -109,7 +109,7 @@ class Spdctrl(SpdController):
         elif self.cruise_set_speed_kph > CS.clu_Vanz:
             self.seq_step_debug = ""
             # 선행 차량이 가속하고 있으면.
-            if dRele >= 150: # 감지범위 밖에 멀리 떨어져 있으면
+            if dRel >= 150: # 감지범위 밖에 멀리 떨어져 있으면
                 if CS.clu_Vanz >= 60: 
                    self.seq_step_debug = "가속중#1"
                    lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 15, 3)
