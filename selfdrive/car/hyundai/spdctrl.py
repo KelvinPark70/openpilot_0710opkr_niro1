@@ -39,8 +39,8 @@ class Spdctrl(SpdController):
         
         if dst_lead_distance > 100:
             dst_lead_distance = 100
-        #elif dst_lead_distance < 15:
-            #dst_lead_distance = 15
+        elif dst_lead_distance < 30:
+            dst_lead_distance = 30
 
         if dRel < 150: #앞차와의 간격이 150미터 미만이면, 즉 앞차가 인식되면,
             self.time_no_lean = 0
@@ -140,7 +140,7 @@ class Spdctrl(SpdController):
                     self.seq_step_debug = "가속중#9"
                     lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 15, 3)
 
-            if dRel > (CS.clu_Vanz + lead_objspd) * self.cv_Raio :   # 선행차 속도를 감안한(가감속) "내차 주행 속도" 수치의 비율(cv_Raio) 보다 선행차가 멀리 있다면 가속할 수 있도록 최대 설정 속도로 설정
+            if lead_objspd > 0 and dRel > (CS.clu_Vanz + lead_objspd) * self.cv_Raio :   # 선행차 속도를 감안한(가감속) "내차 주행 속도" 수치의 비율(cv_Raio) 보다 선행차가 멀리 있다면 가속할 수 있도록 최대 설정 속도로 설정
                 self.seq_step_debug = "최대가속"
                 lead_set_speed = self.cruise_set_speed_kph
 
