@@ -93,8 +93,8 @@ class Spdctrl(SpdController):
                 self.seq_step_debug = "기준내,50-1"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, -1)
             else:
-                self.seq_step_debug = "기준내 가속"
-                lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, 1)
+                self.seq_step_debug = "속도유지#2"
+                #lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, 1)
         
         # 선행차량이 멀리 있으면.
         elif lead_objspd < -20 and dRel < 50:  #거리 조건 추가
