@@ -11,7 +11,7 @@ import common.log as trace1
 class Spdctrl(SpdController):
     def __init__(self, CP=None):
         super().__init__( CP )
-        self.cv_Raio = 0.4
+        self.cv_Raio = 0.6
         self.cv_Dist = -5
         self.steer_mode = ""
         self.cruise_gap = 0.0
@@ -67,7 +67,7 @@ class Spdctrl(SpdController):
             self.seq_step_debug = "감속중#4"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, -4)
         # 거리 유지 조건
-        elif d_delta < 0: # 기준유지거리(현재속도*0.4)보다 가까이 있게 된 상황 
+        elif d_delta < 0: # 기준유지거리(현재속도*0.6, 최소 30m이내)보다 가까이 있게 된 상황 
             self.seq_step_debug = "앞차가까움"
             if lead_objspd == 0:    # 속도 유지 시점 결정.
                 if CS.VSetDis > (CS.clu_Vanz + 30):
