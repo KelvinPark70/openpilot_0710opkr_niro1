@@ -140,7 +140,7 @@ class Spdctrl(SpdController):
                     self.seq_step_debug = "가속중#9"
                     lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 15, 3)
 
-            if lead_objspd > 0 and dRel > (CS.clu_Vanz + lead_objspd) * self.cv_Raio :   # 선행차 속도를 감안한(가감속) "내차 주행 속도" 수치의 비율(cv_Raio) 보다 선행차가 멀리 있다면 가속할 수 있도록 최대 설정 속도로 설정
+            if dRel > (CS.clu_Vanz + lead_objspd) * self.cv_Raio :   # 선행차 속도를 감안한(가감속) "내차 주행 속도" 수치의 비율(cv_Raio) 보다 선행차가 멀리 있다면 가속할 수 있도록 최대 설정 속도로 설정
                 self.seq_step_debug = "최대가속"
                 lead_set_speed = self.cruise_set_speed_kph
 
