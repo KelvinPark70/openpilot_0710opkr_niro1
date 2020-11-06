@@ -39,8 +39,8 @@ class Spdctrl(SpdController):
         
         if dst_lead_distance > 100:
             dst_lead_distance = 100
-        elif dst_lead_distance < 30:
-            dst_lead_distance = 30
+        elif dst_lead_distance < 20:
+            dst_lead_distance = 20
 
         if dRel < 150: #앞차와의 간격이 150미터 미만이면, 즉 앞차가 인식되면,
             self.time_no_lean = 0
@@ -67,7 +67,7 @@ class Spdctrl(SpdController):
             self.seq_step_debug = "감속중#4"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 15, -4)
         # 거리 유지 조건
-        elif d_delta < 0: # 기준유지거리(현재속도*0.6, 최소 30m이내)보다 가까이 있게 된 상황 
+        elif d_delta < 0: # 기준유지거리(현재속도*0.6, 최소 20m이내)보다 가까이 있게 된 상황 
             self.seq_step_debug = "앞차가까움"
             if lead_objspd == 0:    # 속도 유지 시점 결정.
                 if CS.VSetDis > (CS.clu_Vanz + 30):
@@ -94,7 +94,7 @@ class Spdctrl(SpdController):
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, -1)
             else:
                 self.seq_step_debug = "속도유지#2"
-                #lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 50, 1)
+                
         
         # 선행차량이 멀리 있으면.
         elif lead_objspd < -20 and dRel < 50:  #거리 조건 추가
